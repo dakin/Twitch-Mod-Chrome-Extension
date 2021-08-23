@@ -1,51 +1,35 @@
-// Initialize button with user's preferred color
-let changeColor = document.getElementById("changeColor");
+let currentTimeContainer = document.getElementById("currentTime");
 let grabActivityFeed = document.getElementById("grabActivityFeed");
 
-chrome.storage.sync.get("color", ({ color }) => {
-    changeColor.style.backgroundColor = color;
-});
-
-changeColor.addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: setPageBackgroundColor,
-    });
+chrome.storage.sync.get(["maxMinutes"], ({ maxMinutes }) => {
+    currentTimeContainer.innerText = "Maximum Minutes: " + maxMinutes;
 });
 
 grabActivityFeed.addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    let downloads = document.getElementById("download");
 
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
         function: getActivityFeed,
+    }, (results) => {
+        for (let result of results) {
+            let csv = result.result;
+            console.log(csv);
+            console.log(downloads);
+            
+            let encodedUri = encodeURI(csv);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "banlist.csv");
+            downloads.appendChild(link); // Required for FF
+
+            link.click();
+        }
     });
 });
 
-function setPageBackgroundColor() {
-    /*chrome.runtime.sendMessage({}, function(response) {
-        console.log("change color");
-        console.log(response);
-    });*/
-    console.log("test");
-    chrome.storage.sync.get("color", ({ color }) => {
-        document.body.style.backgroundColor = color;
-    });
-}
-
 function getActivityFeed() {
-    // activity-list-layout
-    //  activity-base-list-item__title
-    //       activity-feed-event--follow
-
-    // activity-list-layout
-    //   activity-base-list-item
-    //     activity-base-list-item__compact-mode
-    //       activity-feed-event--follow
-    //       activity-base-list-item__subtitle
-    //         button - has username in it
     let activityFeed = document.body.getElementsByClassName("activity-list-layout");
     let compactSearch = document.body.getElementsByClassName("activity-list-layout")[0].querySelectorAll('.activity-base-list-item__compact-mode');
     let compactMode = ((compactSearch.length > 0) ? true : false);
@@ -89,12 +73,9 @@ function getActivityFeed() {
                 } 
             }
         }
-        //console.log(banList);
-        let csv = "data:text/csv;charset=utf-8,"
-            + banList.map(e => e.join(",")).join("\n");
-        console.log(csv);
-        //let encodedUri = encodeURI(csv);
-        //window.open(encodedUri);
+        let csv = "data:text/csv;charset=utf-8," + banList.map(e => e.join(",")).join("\n");
+
+        return csv;
     } else {
         console.log("Not in Mod View");
     }

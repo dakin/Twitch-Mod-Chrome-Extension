@@ -1,8 +1,9 @@
 button {
     outline: none;
     margin: 10px;
+    padding: 10px;
     border: none;
-    border-radius: 2px;
+    border-radius: 5px;
 }
 
 button.color-button {

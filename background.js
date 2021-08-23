@@ -1,13 +1,13 @@
 // Background Service
 // background.js
 
-let color = '#3aa757';
 let twitchUser = "";
 let currentModChannel = "";
+let maxMinutes = 2;
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ color });
-    console.log('Default background color set to %cgreen', `color: ${color}`);
-    chrome.storage.sync.set({ twitchUser });
-    chrome.storage.sync.set({ currentModChannel });
+    chrome.storage.sync.set({ twitchUser: twitchUser });
+    chrome.storage.sync.set({ currentModChannel: currentModChannel });
+    chrome.storage.sync.set({ maxMinutes: maxMinutes });
+    console.log('Default minutes: ' + maxMinutes);
 });

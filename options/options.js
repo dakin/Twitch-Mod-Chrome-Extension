@@ -1,6 +1,6 @@
-let page = document.getElementById("buttonDiv");
+let minuteSelect = document.getElementById("minutes");
 let selectedClassName = "current";
-const presetButtonColors = ["#3aa757", "#e8453c", "#f9bb2d", "#4688f1"];
+const presetMinutes = [1, 2, 5, 10, 15];
 
 function handleButtonClick(event) {
     let current = event.target.parentElement.querySelector(
@@ -11,30 +11,34 @@ function handleButtonClick(event) {
         current.classList.remove(selectedClassName);
     }
 
-    let color = event.target.dataset.color;
+    let minutes = event.target.dataset.mins;
 
     event.target.classList.add(selectedClassName);
-    chrome.storage.sync.set({ color });
+    chrome.storage.sync.set({ maxMinutes:minutes });
 }
 
-function constructOptions(buttonColors) {
-    chrome.storage.sync.get("color", (data) => {
-        let currentColor = data.color;
+function constructOptions(buttonMinutes) {
+    chrome.storage.sync.get(["maxMinutes"], (data) => {
+        let currentMinutes = data.maxMinutes;
+        console.log(data.maxMinutes);
 
-        for (let buttonColor of buttonColors) {
+        for (let buttonMinute of buttonMinutes) {
             let button = document.createElement("button");
-            button.dataset.color = buttonColor;
-            button.style.backgroundColor = buttonColor;
-            button.classList.add("color-button");
+            button.innerText = buttonMinute + " Min";
+            button.dataset.mins = buttonMinute;
 
-            if (buttonColor === currentColor) {
+            //console.log("buttonMinute: " + buttonMinute);
+            //console.log("currentMinutes: " + currentMinutes);
+
+            if (buttonMinute === currentMinutes) {
+                console.log("selected");
                 button.classList.add(selectedClassName);
             }
 
             button.addEventListener("click", handleButtonClick);
-            page.appendChild(button);
+            minuteSelect.appendChild(button);
         }
     });
 }
 
-constructOptions(presetButtonColors);
+constructOptions(presetMinutes);
