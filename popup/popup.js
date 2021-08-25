@@ -13,18 +13,20 @@ grabActivityFeed.addEventListener("click", async () => {
         target: { tabId: tab.id },
         function: getActivityFeed,
     }, (results) => {
-        for (let result of results) {
-            let csv = result.result;
+        let banList = results[0].result;
+        if (banList.length > 1) {
+            let csv = "data:text/csv;charset=utf-8," + banList.map(e => e.join(",")).join("\n");
             console.log(csv);
-            console.log(downloads);
             
             let encodedUri = encodeURI(csv);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "banlist.csv");
-            downloads.appendChild(link); // Required for FF
+            downloads.appendChild(link);
 
             link.click();
+        } else {
+            console.log('No users to Ban');
         }
     });
 });
@@ -35,6 +37,9 @@ function getActivityFeed() {
     let compactMode = ((compactSearch.length > 0) ? true : false);
 
     let prepend = "/ban ";
+    let re = /.*\b(([1-4]) (minutes|minute))\b.*|.*\b(this )(minutes|minute)\b.*/g;
+    // Additional RegEx for testing
+    //let re = /.*\b(([0-9]+) (hours|hour))\b.*|.*\b(this )(hours|hour)\b.*/g;
     let banList = [];
     banList.push(["Command", "TimeStamp", "Banned?"]);
 
@@ -44,9 +49,7 @@ function getActivityFeed() {
             if (compactMode) {
                 let followContainer = follow.parentElement.getElementsByClassName("activity-base-list-item__subtitle");
                 for (let title of followContainer) {
-                    let users = title.querySelectorAll('button')
-                    //let re = /.*\b(([1-2]) (minutes|minute))\b.*|.*\b(this )(minutes|minute)\b.*/g;
-                    let re = /.*\b(([0-9]+) (hours|hour))\b.*|.*\b(this )(hours|hour)\b.*/g;
+                    let users = title.querySelectorAll('button');
                     let time = title.querySelectorAll('span')[5].innerText;
                     let timeMatch = re.exec(time);
 
@@ -63,8 +66,6 @@ function getActivityFeed() {
                 let user = followContainer.children[0].children[1].querySelectorAll('button')[0].innerText;
                 let time = followContainer.children[1].children[2].innerText;
 
-                //let re = /.*\b(([1-2]) (minutes|minute))\b.*|.*\b(this )(minutes|minute)\b.*/g;
-                let re = /.*\b(([0-9]+) (hours|hour))\b.*|.*\b(this )(hours|hour)\b.*/g;
                 let timeMatch = re.exec(time);
 
                 if (timeMatch) {
@@ -73,9 +74,7 @@ function getActivityFeed() {
                 } 
             }
         }
-        let csv = "data:text/csv;charset=utf-8," + banList.map(e => e.join(",")).join("\n");
-
-        return csv;
+        return banList;
     } else {
         console.log("Not in Mod View");
     }
