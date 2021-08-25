@@ -1,5 +1,5 @@
 {
-    "name": "Twitch Mod Extension",
+    "name": "Twitch Mod Chrome Extension",
     "description": "Adding things to make a mod's life easier.",
     "version": "1.0",
     "manifest_version": 3,
