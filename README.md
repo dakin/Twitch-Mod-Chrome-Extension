@@ -8,7 +8,7 @@ I would like to add richer functionality to make banning easier for mods. And in
 
 The initial idea behind this version is to quickly export a spreadsheet that the mod team can work from.
 
-First, enter follower only mode or sub mode to protect your community. Then user this extension and download a list of followers. Next, you can import that downloaded .csv into a Google Sheet that you have ready and shared with all your mods. Then you can highlight the rows once you've executed the ban command in chat.
+First, enter follower only mode or sub mode and cleat chat to protect your community. Then use this extension to download a list of followers. Next, you can import that downloaded .csv into a Google Sheet that you have ready and shared with all your mods. Then you can highlight the rows once you've executed the ban command in chat to communitcate which users have already been banned.
 
 ## Future Improvements
 
