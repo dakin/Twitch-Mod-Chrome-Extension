@@ -4,6 +4,7 @@ button {
     padding: 10px;
     border: none;
     border-radius: 5px;
+    background: #cccccc;
 }
 
 button.color-button {
