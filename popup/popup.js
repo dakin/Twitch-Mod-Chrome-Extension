@@ -4,13 +4,13 @@ let downloads = document.getElementById("download");
 let notificationList = document.getElementById("notifications");
 
 
-chrome.storage.sync.get(["maxMinutes"], ({ maxMinutes }) => {
+/*chrome.storage.sync.get(["maxMinutes"], ({ maxMinutes }) => {
     let timeButton = document.createElement("button");
     //currentTimeContainer.innerText = "Maximum Minutes: " + maxMinutes;
     timeButton.innerHTML = '<span class="material-icons">history</span>' + 4 + ' mins';
     timeButton.classList.add('light');
     currentTimeContainer.appendChild(timeButton);
-});
+});*/
 
 chrome.storage.sync.get(["activityTime"], ({ activityTime }) => {
     //console.log(activityTime);
