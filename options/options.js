@@ -2,7 +2,7 @@ let minuteSelect = document.getElementById("minutes");
 let selectedClassName = "current";
 const presetMinutes = [1, 2, 5, 10, 15];
 
-function handleButtonClick(event) {
+/*function handleButtonClick(event) {
     let current = event.target.parentElement.querySelector(
         `.${selectedClassName}`
     );
@@ -41,4 +41,4 @@ function constructOptions(buttonMinutes) {
     });
 }
 
-constructOptions(presetMinutes);
+constructOptions(presetMinutes);*/

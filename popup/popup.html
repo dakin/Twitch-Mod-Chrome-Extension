@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="../styles/layout.css">
         <link rel="stylesheet" href="../styles/button.css">
         <link rel="stylesheet" href="../styles/notification.css">
+        <link rel="stylesheet" href="popup.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
-    <body style="width: 200px;">
-        <h1>Twitch Mod Extension</h1>
-        <h2>Recent Activity</h2>
-        <div id="currentTime"></div>
-        <button id="grabActivityFeed">Get Ban List</button>
-        <div id="download"></div>
+    <body>
+        <div class="content">
+            <h1><strong>Twitch Mod</strong> Extension</h1>
+            
+            <!--<div class="time-select">
+                <h3>Time Period</h3>
+                <div id="currentTime" class="current-time"></div>
+            </div>-->
+        </div>
+        
+        <div class="footer">
+            <div class="buttons">
+                <button id="grabActivityFeed"><span class="material-icons">hardware</span> Get Ban List</button>
+            </div>
+            <div id="download"></div>
+        </div>
         <div id="notifications" class="notifications"></div>
+
         <script src="popup.js"></script>
     </body>
 </html>
